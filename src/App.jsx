@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { supabase } from "./supabase.js";
 
+console.log("Ver 1.0.2 - Category Fix Test");
+
 // ── Constants ─────────────────────────────────────────────────────────────────
 const THEMES = [
   { id: "purple", name: "퍼플",     p: "#8B72E0", s: "#F4F0FF", m: "#D4C8FA", card: "#EDE8FF", d: "#3D2B8E" },
