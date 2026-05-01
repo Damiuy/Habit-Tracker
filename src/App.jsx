@@ -165,7 +165,6 @@ function HabitTracker({ user }) {
   const [habits, setHabits] = useState([]);
   const [rec, setRec]       = useState({});
   const [memos, setMemos]   = useState({});
-  const [userCats, setUserCats] = useState([]);
   const [theme, setTheme]   = useState(THEMES[0]);
   const [fontId, setFontId] = useState("system");
   const [customFontName, setCustomFontName] = useState("");
