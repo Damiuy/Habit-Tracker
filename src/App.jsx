@@ -23,10 +23,10 @@ const FONTS = [
 ];
 
 const DEFAULT_CATS = [
-  { id: "morning", label: "아침 루틴", color: "#EF9F27", fixed: true },
-  { id: "health",  label: "건강",      color: "#2CB87A", fixed: true },
-  { id: "growth",  label: "자기계발", color: "#D85A30", fixed: true },
-  { id: "other",   label: "기타",      color: "#8C9AB5", fixed: true },
+  { id: "morning", label: "아침 루틴", color: "#EF9F27", fixed: false },
+  { id: "health",  label: "건강",      color: "#2CB87A", fixed: false },
+  { id: "growth",  label: "자기계발", color: "#D85A30", fixed: false },
+  { id: "other",   label: "기타",      color: "#8C9AB5", fixed: false },
 ];
 
 const GREETINGS = [
@@ -180,7 +180,8 @@ function HabitTracker({ user }) {
 
   const [greeting] = useState(() => GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
   const loadedFonts = useRef(new Set());
-  const allCats = [...DEFAULT_CATS, ...userCats];
+ const [userCats, setUserCats] = useState([...DEFAULT_CATS]);
+const allCats = userCats;
 
   // ── Theme CSS vars ────────────────────────────────────────────────────────
   useEffect(() => {
@@ -226,7 +227,8 @@ function HabitTracker({ user }) {
         if (t) setTheme(t);
         if (sData.font_id) setFontId(sData.font_id);
         if (sData.custom_font_name) setCustomFontName(sData.custom_font_name);
-        if (sData.user_cats) setUserCats(sData.user_cats);
+        if (sData.user_cats && sData.user_cats.length > 0) setUserCats(sData.user_cats);
+else setUserCats([...DEFAULT_CATS]);
         lsSet(`ht-settings-${userId}`, sData);
       } else {
         const cached = lsGet(`ht-settings-${userId}`);
@@ -567,25 +569,15 @@ function HabitTracker({ user }) {
                   <button onClick={addUserCat} style={{ width: "100%", padding: "9px", background: theme.p, color: "white", border: "none", borderRadius: 10, fontSize: 12, fontWeight: 500, cursor: "pointer", fontFamily }}>추가</button>
                 </div>
               )}
-              <div style={{ fontSize: 10, color: "#AAA", marginBottom: 6, ...fs }}>기본 카테고리</div>
-              {DEFAULT_CATS.map(c => (
-                <div key={c.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 0", borderBottom: "0.5px solid #F0F0F8" }}>
+              {allCats.map(c => (
+              <div key={c.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0", borderBottom: "0.5px solid #F0F0F8" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <div style={{ width: 10, height: 10, borderRadius: "50%", background: c.color }} />
-                  <span style={{ fontSize: 12, color: "#555", ...fs }}>{c.label}</span>
-                </div>
-              ))}
-              {userCats.length > 0 && <>
-                <div style={{ fontSize: 10, color: "#AAA", marginTop: 10, marginBottom: 6, ...fs }}>내 카테고리</div>
-                {userCats.map(c => (
-                  <div key={c.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0", borderBottom: "0.5px solid #F0F0F8" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: c.color }} />
-                      <span style={{ fontSize: 12, color: "#1A1A2E", ...fs }}>{c.label}</span>
-                    </div>
-                    <button onClick={() => removeUserCat(c.id)} style={{ background: "none", border: "none", color: "#CCC", cursor: "pointer", fontSize: 16, padding: "0 4px" }}>×</button>
+                    <span style={{ fontSize: 12, color: "#1A1A2E", ...fs }}>{c.label}</span>
                   </div>
-                ))}
-              </>}
+                <button onClick={() => removeUserCat(c.id)} style={{ background: "none", border: "none", color: "#CCC", cursor: "pointer", fontSize: 16, padding: "0 4px" }}>×</button>
+              </div>
+            ))}
             </div>
           </div>
         )}
