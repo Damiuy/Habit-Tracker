@@ -221,7 +221,7 @@ const allCats = userCats;
       }
 
       // Settings
-      const { data: sData } = await supabase.from("user_settings").select("*").eq("user_id", userId).single();
+      const { data: sData } = await supabase.from("user_settings").select("*").eq("user_id", userId).maybeSingle();
       if (sData) {
         const t = THEMES.find(x => x.id === sData.theme_id);
         if (t) setTheme(t);
@@ -249,12 +249,12 @@ else setUserCats([...DEFAULT_CATS]);
     if (!ready) return;
     (async () => {
       // Records
-      const { data: rData } = await supabase.from("monthly_records").select("data").eq("user_id", userId).eq("year", yr).eq("month", mo).single();
+      const { data: rData } = await supabase.from("monthly_records").select("data").eq("user_id", userId).eq("year", yr).eq("month", mo).maybeSingle();
       if (rData) { setRec(rData.data); lsSet(`ht-rec-${userId}-${yr}-${mo}`, rData.data); }
       else { setRec(lsGet(`ht-rec-${userId}-${yr}-${mo}`) || {}); }
 
       // Memos
-      const { data: mData } = await supabase.from("monthly_memos").select("data").eq("user_id", userId).eq("year", yr).eq("month", mo).single();
+      const { data: mData } = await supabase.from("monthly_memos").select("data").eq("user_id", userId).eq("year", yr).eq("month", mo).maybeSingle();
       if (mData) { setMemos(mData.data); lsSet(`ht-memos-${userId}-${yr}-${mo}`, mData.data); }
       else { setMemos(lsGet(`ht-memos-${userId}-${yr}-${mo}`) || {}); }
     })();
