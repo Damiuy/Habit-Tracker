@@ -236,8 +236,12 @@ else setUserCats([...DEFAULT_CATS]);
           if (t) setTheme(t);
           if (cached.font_id) setFontId(cached.font_id);
           if (cached.custom_font_name) setCustomFontName(cached.custom_font_name);
-          if (cached.user_cats && cached.user_cats.length > 0) setUserCats(cached.user_cats);
-else setUserCats([...DEFAULT_CATS]);
+          if (sData.user_cats !== null) {
+    setUserCats(sData.user_cats);
+  } else {
+    setUserCats([...DEFAULT_CATS]);
+  }
+  lsSet(`ht-settings-${userId}`, sData);
         }
       }
       setReady(true);
