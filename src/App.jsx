@@ -236,7 +236,8 @@ else setUserCats([...DEFAULT_CATS]);
           if (t) setTheme(t);
           if (cached.font_id) setFontId(cached.font_id);
           if (cached.custom_font_name) setCustomFontName(cached.custom_font_name);
-          if (cached.user_cats) setUserCats(cached.user_cats);
+          if (cached.user_cats && cached.user_cats.length > 0) setUserCats(cached.user_cats);
+else setUserCats([...DEFAULT_CATS]);
         }
       }
       setReady(true);
